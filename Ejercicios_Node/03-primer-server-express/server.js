@@ -1,7 +1,7 @@
 const express = require("express");
 const cochesRouter = require('./router/coches.router');
 
-const PORT = 3001;
+const PORT = 3000;
 
 const server = express();
 

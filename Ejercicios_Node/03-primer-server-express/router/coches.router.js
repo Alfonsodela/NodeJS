@@ -23,7 +23,7 @@ cochesRouter.get("/", (req, res) => {
   }
 
   if (!isNaN(posterioresA)) {
-    const filtrados = coches.filter(coche => coche.annoFabricacion < posterioresA);
+    const filtrados = coches.filter(coche => coche.annoFabricacion > posterioresA);
     return res.status(200).send(filtrados);
   }
 
@@ -38,7 +38,7 @@ cochesRouter.get("/:id", (req, res) => {
     return res.status(404).send(`Coche con id ${id} no encontrado`);
   }
 
-  const coche = coches[i];
+  const coche = coches[index];
   return res.status(200).send(coche);
 });
 
