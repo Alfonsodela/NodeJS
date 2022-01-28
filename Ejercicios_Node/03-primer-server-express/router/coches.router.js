@@ -9,26 +9,26 @@ const coches = [
 ];
 
 // GET / coches / === / coches
-cochesRouter.get("/", (req, res) => {
-  const anterioresA = Number(req.query.anterioresA);
-  const posterioresA = Number(req.query.posterioresA);
-  if (!isNaN(anterioresA) && !isNaN(posterioresA)) {
-    const filtrados = coches.filter(coche => coche.annoFabricacion < anterioresA && coche.annoFabricacion > posterioresA)
-    return res.status(200).send(filtrados);
-  }
-
-  if (!isNaN(anterioresA)) {
-    const filtrados = coches.filter(coche => coche.annoFabricacion < anterioresA);
-    return res.status(200).send(filtrados);
-  }
-
-  if (!isNaN(posterioresA)) {
-    const filtrados = coches.filter(coche => coche.annoFabricacion > posterioresA);
-    return res.status(200).send(filtrados);
-  }
-
-  res.status(200).send(coches);
-});
+// cochesRouter.get("/", (req, res) => {
+  // const anterioresA = Number(req.query.anterioresA);
+  // const posterioresA = Number(req.query.posterioresA);
+  // if (!isNaN(anterioresA) && !isNaN(posterioresA)) {
+    // const filtrados = coches.filter(coche => coche.annoFabricacion < anterioresA && coche.annoFabricacion > posterioresA)
+    // return res.status(200).send(filtrados);
+  // }
+// 
+  // if (!isNaN(anterioresA)) {
+    // const filtrados = coches.filter(coche => coche.annoFabricacion < anterioresA);
+    // return res.status(200).send(filtrados);
+  // }
+// 
+  // if (!isNaN(posterioresA)) {
+    // const filtrados = coches.filter(coche => coche.annoFabricacion > posterioresA);
+    // return res.status(200).send(filtrados);
+  // }
+// 
+  // res.status(200).send(coches);
+// });
 
 // GET / coches / 2
 cochesRouter.get("/:id", (req, res) => {
