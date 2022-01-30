@@ -1,12 +1,12 @@
 const express = require('express');
-const Cliente = require('../models/Cliente');
+const Empleado = require('../models/Empleado');
 
-const clientesRouter = express.Router();
+const empleadosRouter = express.Router();
 
-clientesRouter.get('/', (req, res, next) => {
-    return Cliente.find()// .populate('coches')
-        .then(clientes => {
-            return res.status(200).json(clientes);
+empleadosRouter.get('/', (req, res, next) => {
+    return Empleado.find()// .populate('clientes')
+        .then(empleados => {
+            return res.status(200).json(empleados);
         })
         .catch(err => {
             const error = new Error(err);
@@ -15,12 +15,12 @@ clientesRouter.get('/', (req, res, next) => {
         });
 });
 
-clientesRouter.get('/:id', (req, res, next) => {
+empleadosRouter.get('/:id', (req, res, next) => {
     const id = req.params.id;
-    return Cliente.findById(id).populate('coches')
+    return Empleado.findById(id).populate('clientes')
         .then((cliente) => {
             if (!cliente) {
-                const error = new Error('Cliente no encontrado');
+                const error = new Error('Empleado no encontrado');
                 error.status = 404;
                 return next(error);
             }
@@ -33,16 +33,15 @@ clientesRouter.get('/:id', (req, res, next) => {
         });
 });
 
-clientesRouter.post('/', (req, res, next) => {
-    const nuevoCliente = new Cliente({
+empleadosRouter.post('/', (req, res, next) => {
+    const nuevoEmpleado = new Empleado({
         nombre: req.body.nombre,
-        edad: req.body.edad,
         apellido: req.body.apellido,
-        coches: [],
+        clientes: [],
     })
-    return nuevoCliente.save()
+    return nuevoEmpleado.save()
         .then(() => {
-            return res.status(201).json(nuevoCliente);
+            return res.status(201).json(nuevoEmpleado);
         })
         .catch(err => {
             const error = new Error(err);
@@ -51,13 +50,13 @@ clientesRouter.post('/', (req, res, next) => {
         });
 });
 
-clientesRouter.put('/:id/coches', (req, res, next) => {
-    const clienteId = req.params.id;
-    const idDelCocheAAnadir = req.body.cocheId;
+empleadosRouter.put('/:id/clientes', (req, res, next) => {
+    const empleadoId = req.params.id;
+    const idDelClienteAAnadir = req.body.clienteId;
 
-    return Cliente.findByIdAndUpdate(
-        clienteId,
-        { $push: { coches: idDelCocheAAnadir } },
+    return Empleado.findByIdAndUpdate(
+        empleadoId,
+        { $push: { clientes: idDelClienteAAnadir } },
         { new: true }
     )
         .then(clienteActualizado => {
@@ -70,11 +69,11 @@ clientesRouter.put('/:id/coches', (req, res, next) => {
         });
 });
 
-clientesRouter.delete('/:id', (req, res, next) => {
+empleadosRouter.delete('/:id', (req, res, next) => {
     const id = req.params.id;
-    return Cliente.findByIdAndDelete(id)
+    return Empleado.findByIdAndDelete(id)
         .then(() => {
-            return res.status(200).json(`Cliente con id ${id} eliminado`);
+            return res.status(200).json(`Empleado con id ${id} eliminado`);
         })
         .catch(err => {
             const error = new Error(err);
@@ -84,4 +83,4 @@ clientesRouter.delete('/:id', (req, res, next) => {
 });
 
 
-module.exports = clientesRouter;
+module.exports = empleadosRouter;
