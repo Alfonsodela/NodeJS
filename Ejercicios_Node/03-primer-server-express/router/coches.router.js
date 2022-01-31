@@ -88,13 +88,11 @@ cochesRouter.get('/:id', (req, res, next) => {
 });
 
 cochesRouter.post('/', (req, res, next) => {
-    console.log('Body recibido', req.body);
-    const nuevoCoche = new Coche(/*{
+    const nuevoCoche = new Coche({
         marca: req.body.marca,
         modelo: req.body.modelo,
-        annoFabricacion: req.body.annoFabricacion,
-    }*/
-    req.body);
+        annoFabricacion: req.body.annoFabricacion
+    });
 
     return nuevoCoche.save()
         .then(() => {
@@ -109,27 +107,18 @@ cochesRouter.post('/', (req, res, next) => {
 
 cochesRouter.put('/:id', (req, res, next) => {
     const id = req.params.id;
-    // const cocheEditado = new Coche(req.body);
-    // cocheEditado._id = id; // Reasignamos el id para sobreescribir el documento en la DB
-    // return Coche.findByIdAndUpdate(id, cocheEditado, { /* returnDocument: 'after', */ new: true })
-    //     .then(cocheActualizado => {
-    //         return res.status(200).json(cocheActualizado);
-    //     })
-    //     .catch(err => {
-    //         const error = new Error(err);
-    //         error.status = 500;
-    //         return next(error);
-    //     });
-    return Coche.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+    const cocheEditado = new Coche (req.body);
+    cocheEditado._id = id;
+    return Coche.findByIdAndUpdate(id, cocheEditado, {new: true})
         .then(cocheActualizado => {
-            return res.status(200).json(cocheActualizado);
+            res.status(200).json(cocheActualizado);
         })
         .catch(err => {
             const error = new Error(err);
             error.status = 500;
             return next(error);
-        });
-});
+        })
+})
 
 cochesRouter.delete('/:id', (req, res, next) => {
     const id = req.params.id;
@@ -143,5 +132,6 @@ cochesRouter.delete('/:id', (req, res, next) => {
             return next(error);
         });
 });
+
 
 module.exports = cochesRouter;

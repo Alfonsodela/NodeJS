@@ -2,6 +2,7 @@ const express = require('express');
 const cochesRouter = require('./router/coches.router');
 const clientesRouter = require('./router/clientes.router');
 const empleadosRouter = require('./router/empleados.router');
+const usuariosRouter = require('./router/usuarios.router');
 const db = require('./db');
 
 const PORT = 3000;
@@ -20,6 +21,7 @@ server.get('/', (req, res) => {
 server.use('/coches', cochesRouter);
 server.use('/clientes', clientesRouter);
 server.use('/empleados', empleadosRouter);
+server.use('/usuarios', usuariosRouter);
 
 server.use('*', (req, res, next) => {
     const error = new Error('Ruta no encontrada');
