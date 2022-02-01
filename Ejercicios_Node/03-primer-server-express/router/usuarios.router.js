@@ -1,5 +1,6 @@
 const express = require('express');
 const Usuario = require('../models/Usuario');
+const clientesRouter = require('./clientes.router');
 
 const usuariosRouter = express.Router();
 
@@ -35,7 +36,7 @@ usuariosRouter.get('/:id', (req, res, next) => {
 
 usuariosRouter.post('/', (req, res, next) => {
     const nuevoUsuario = new Usuario({
-        nombre: req.body.name,
+        name: req.body.name,
         surname: req.body.surname,
         age: req.body.age,
         coches: [],
@@ -50,6 +51,25 @@ usuariosRouter.post('/', (req, res, next) => {
             return next(error);
         });
 });
+
+usuariosRouter.put('/:id/coches', (req, res, next) => {
+    const usuarioId = req.params.id;
+    const idDelCocheAAnadir = req.body.cocheId;
+
+    return Usuario.findByIdAndUpdate(
+        usuarioId,
+        { $push: { coches: idDelCocheAAnadir} },
+        { new: true }
+    )
+    .then(usuarioActualizado => {
+        return res.status(200).json(usuarioActualizado);
+    })
+    .catch(err => {
+        const error = new Error(err);
+        error.status = 500;
+        return next(error);
+    })
+})
 
 usuariosRouter.delete('/:id', (req, res, next) => {
     const id = req.params.id;
