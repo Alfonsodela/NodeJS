@@ -1,9 +1,12 @@
 const express = require("express");
 const moviesRouter = require('./router/movies.router')
+const cinemasRouter = require('./router/cinemas.router')
 const db = require('./db');
 
 
 const PORT = 3000;
+
+db.connectDB()
 
 const server = express();
 
@@ -13,6 +16,7 @@ server.use(express.urlencoded({ extended: false }));
 
 
 server.use('/movies', moviesRouter);
+server.use('/cinemas', cinemasRouter);
 
 server.get("/", (req, res) => {
     res.status(200).send('Server is up & running');

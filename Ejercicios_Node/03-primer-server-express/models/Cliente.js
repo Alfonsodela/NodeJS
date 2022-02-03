@@ -6,7 +6,7 @@ const clienteSchema = new Schema({
     nombre: { type: String, required: true },
     apellido: { type: String },
     edad: { type: Number, required: true },
-    coches: [{ type: mongoose.Types.ObjectId, ref: 'Coche' }],
+    coches: [{ type: mongoose.Types.ObjectId, ref: 'Coche' }], // Array de Objects id
 }, {
     timestamps: true
 });
