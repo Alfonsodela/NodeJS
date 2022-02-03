@@ -59,6 +59,37 @@ moviesRouter.post('/', (req, res, next) => {
   });
 });
 
+// 3. Crear un método put de Movies para modificar una película.
+moviesRouter.put('/:id', (req, res, next) => {
+  const id = req.params.id;
+  const movieEdit = new Movie (req.body);
+  movieEdit._id = id;
+  return Movie.findByIdAndUpdate(id, movieEdit, {new: true})
+    // const id = req.params.id;
+    // return Movie.findByIdAndUpdate(id, { $set: req.body }, { new: true })
+      // .then(movieUpdated => {
+    .then(movieUpdated => {
+      res.status(200).json(movieUpdated);
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.status = 500;
+      return next(error);
+    })
+})
 
+// 4. Crear un método delete de Movies para eliminar una película.
+moviesRouter.delete('/:id', (req, res, next) => {
+  const id = req.params.id;
+  return Movie.findByIdAndDelete(id)
+    .then(() => {
+      return res.status(200).json(`Movie with id ${id} delete`);
+    })
+    .catch(err => {
+      const error = new Error(err);
+      error.status = 500;
+      return next(error);
+    })
+})
 
 module.exports = moviesRouter;
